@@ -56,7 +56,12 @@ function game() {
     }
   }
   //Declare winner.
-  console.log(`Game Over. The ${currentWinner} wins!`)
+  if (currentWinner != "Draw") {
+    console.log(`Game Over. The ${currentWinner} wins!`)
+  }
+  else {
+    console.log("Game Over. It's a draw!");
+  }
 }
 
 //Collect player choice of rock, paper, scissors.
