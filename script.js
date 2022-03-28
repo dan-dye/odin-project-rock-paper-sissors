@@ -72,7 +72,6 @@ function playerInput() {
 
 //Add one to the score for winner.
 function processWinner(scoreArray, roundResult) {
-  console.log(roundResult === true);
   //If result is not a draw, add one to players score in array.
   roundResult ? scoreArray[roundResult] = scoreArray[roundResult] + 1 : '';
   return scoreArray;
