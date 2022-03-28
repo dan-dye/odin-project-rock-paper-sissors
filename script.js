@@ -11,6 +11,7 @@ function playRound(playerSelection, computerSelection) {
   //Checks for same answer and returns draw response if true.
   if (playerSelection === computerSelection) {
     console.log(`Draw! You both picked ${playerSelection}`)
+    return undefined;
   }
   //Array of win conditions.
   let wins = [["Rock", "Scissors"], ["Scissors", "Paper"], ["Paper", "Rock"]];
@@ -19,12 +20,12 @@ function playRound(playerSelection, computerSelection) {
     //If matching values are present in wins array, returns victory message.
     if (wins[i][0] === playerSelection && wins[i][1] === computerSelection)  {
       console.log(`You win! ${playerSelection} beats ${computerSelection}`);
-      return 0;
+      return 1;
     }
   }
   //Defaults to defeat message if draw or victory conditions are not satisfied.
   console.log(`You lose! ${computerSelection} beats ${playerSelection}`);
-  return 1;
+  return 2;
 }
 
 //Returns string with first letter capitalized.
@@ -34,14 +35,28 @@ function camelCase(string) {
 
 //Starts Rock, Paper, Scissors game with five rounds.
 function game() {
-  //Initializes score at zero. [Player, computer]
-  let score = [0, 0];
+  //Initializes score at zero. [undefined, Player, Computer]
+  let score = [undefined, 0, 0];
+  let currentWinner = "Draw";
   //Begin loop of five rounds.
   for (let i = 0; i < 5; i++) {
     console.log("Round", i);
-    console.log(playRound(playerInput(), computerPlay()));
+    //Play round and update score with the result.
+    score = processWinner(score, playRound(playerInput(), computerPlay()));
+    console.log(`Score: Player ${score[1]} vs Computer ${score[2]}`);
+    //Update current winner with score change.
+    if (score[1] > score[2]) {
+      currentWinner = "Player";
+    }
+    else if(score[1] < score[2]) {
+      currentWinner = "Computer";
+    }
+    else {
+      currentWinner = "Draw";
+    }
   }
-  console.log("Game Over")
+  //Declare winner.
+  console.log(`Game Over. The ${currentWinner} wins!`)
 }
 
 //Collect player choice of rock, paper, scissors.
@@ -57,5 +72,8 @@ function playerInput() {
 
 //Add one to the score for winner.
 function processWinner(scoreArray, roundResult) {
+  console.log(roundResult === true);
+  //If result is not a draw, add one to players score in array.
   roundResult ? scoreArray[roundResult] = scoreArray[roundResult] + 1 : '';
+  return scoreArray;
 }
