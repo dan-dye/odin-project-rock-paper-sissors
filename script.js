@@ -1,8 +1,6 @@
 const buttons = document.querySelectorAll('button');
 const resultMessage = document.getElementById('resultMessage');
 
-resultMessage.style.color = 'red';
-
 buttons.forEach(button => button.addEventListener('click', function(e){
   playRound(this.textContent, computerPlay());
 }))
@@ -18,21 +16,23 @@ function playRound(playerSelection, computerSelection) {
   playerSelection = camelCase(playerSelection);
   //Checks for same answer and returns draw response if true.
   if (playerSelection === computerSelection) {
-    console.log(`Draw! We both picked ${playerSelection}`)
+
+    resultMessage.textContent = `Draw! We both picked ${playerSelection}`;
     return undefined;
   }
   //Array of win conditions.
-  let wins = [["Rock", "Scissors"], ["Scissors", "Paper"], ["Paper", "Rock"]];
+  let winConditions = [["Rock", "Scissors"], ["Scissors", "Paper"], ["Paper", "Rock"]];
   //Checks if playerSelection and computerSelection are present in wins. 
-  for (i = 0; i < wins.length; i++) {
+  for (i = 0; i < winConditions.length; i++) {
     //If matching values are present in wins array, returns victory message.
-    if (wins[i][0] === playerSelection && wins[i][1] === computerSelection)  {
-      console.log(`You win! Your ${playerSelection} beats my ${computerSelection}`);
+    if (winConditions[i][0] === playerSelection && winConditions[i][1] === computerSelection)  {
+      resultMessage.textContent = `You win! Your ${playerSelection} beats my ${computerSelection}`;
+      // console.log(`You win! Your ${playerSelection} beats my ${computerSelection}`);
       return 1;
     }
   }
   //Defaults to defeat message if draw or victory conditions are not satisfied.
-  console.log(`You lose! My ${computerSelection} beats your ${playerSelection}`);
+  resultMessage.textContent = `You lose! My ${computerSelection} beats your ${playerSelection}`;
   return 2;
 }
 
