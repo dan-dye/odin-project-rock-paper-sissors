@@ -5,6 +5,7 @@ const computerScoreDisplay = document.getElementById('computerScoreDisplay');
 let playerScore = 0;
 let computerScore = 0;
 
+
 updateScore();
 
 buttons.forEach(button => button.addEventListener('click', function(e){
@@ -21,7 +22,7 @@ function computerPlay() {
 //Play function to start a game. 
 function playRound(playerSelection, computerSelection) {
   let winConditions = [["Rock", "Scissors"], ["Scissors", "Paper"], ["Paper", "Rock"]];
-  // //Checks for same answer and returns draw response if true.
+  // Draw Check
   if (playerSelection === computerSelection) {
     resultMessage.textContent = `Draw! We both picked ${playerSelection}.`;
     return;
@@ -29,7 +30,6 @@ function playRound(playerSelection, computerSelection) {
   else {
     //Checks if playerSelection and computerSelection are present in wins. 
     for (i = 0; i < winConditions.length; i++) {
-      //If matching values are present in wins array, returns victory message.
       if (winConditions[i][0] === playerSelection && winConditions[i][1] === computerSelection)  {
         resultMessage.textContent = `You win! Your ${playerSelection} beats my ${computerSelection}.`;
         playerScore = playerScore + 1;
@@ -38,7 +38,7 @@ function playRound(playerSelection, computerSelection) {
       }
     }
 
-    //Defaults to defeat message if draw or victory conditions are not satisfied.
+    //Defaults to defeat if draw or victory conditions are not satisfied.
     resultMessage.textContent = `You lose! My ${computerSelection} beats your ${playerSelection}.`;
     computerScore = computerScore + 1;
     updateAndCheckWin();
