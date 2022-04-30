@@ -1,9 +1,16 @@
 const buttons = document.querySelectorAll('button');
 const resultMessage = document.getElementById('resultMessage');
+const playerScoreDisplay = document.getElementById('playerScoreDisplay');
+const computerScoreDisplay = document.getElementById('computerScoreDisplay');
+let playerScore = 0;
+let computerScore = 0;
+
+updateScore();
 
 buttons.forEach(button => button.addEventListener('click', function(e){
   playRound(this.textContent, computerPlay());
 }))
+
 //Provides a random rock, paper, scissors choice from the computer.
 function computerPlay() {
   const choices = ["Rock", "Paper", "Scissors"];
@@ -13,80 +20,46 @@ function computerPlay() {
 
 //Play function to start a game. 
 function playRound(playerSelection, computerSelection) {
-  playerSelection = camelCase(playerSelection);
-  //Checks for same answer and returns draw response if true.
-  if (playerSelection === computerSelection) {
-
-    resultMessage.textContent = `Draw! We both picked ${playerSelection}`;
-    return undefined;
-  }
-  //Array of win conditions.
   let winConditions = [["Rock", "Scissors"], ["Scissors", "Paper"], ["Paper", "Rock"]];
-  //Checks if playerSelection and computerSelection are present in wins. 
-  for (i = 0; i < winConditions.length; i++) {
-    //If matching values are present in wins array, returns victory message.
-    if (winConditions[i][0] === playerSelection && winConditions[i][1] === computerSelection)  {
-      resultMessage.textContent = `You win! Your ${playerSelection} beats my ${computerSelection}`;
-      // console.log(`You win! Your ${playerSelection} beats my ${computerSelection}`);
-      return 1;
-    }
+  // //Checks for same answer and returns draw response if true.
+  if (playerSelection === computerSelection) {
+    resultMessage.textContent = `Draw! We both picked ${playerSelection}.`;
+    return;
   }
-  //Defaults to defeat message if draw or victory conditions are not satisfied.
-  resultMessage.textContent = `You lose! My ${computerSelection} beats your ${playerSelection}`;
-  return 2;
+  else {
+    //Checks if playerSelection and computerSelection are present in wins. 
+    for (i = 0; i < winConditions.length; i++) {
+      //If matching values are present in wins array, returns victory message.
+      if (winConditions[i][0] === playerSelection && winConditions[i][1] === computerSelection)  {
+        resultMessage.textContent = `You win! Your ${playerSelection} beats my ${computerSelection}.`;
+        playerScore = playerScore + 1;
+        updateAndCheckWin();
+        return;
+      }
+    }
+
+    //Defaults to defeat message if draw or victory conditions are not satisfied.
+    resultMessage.textContent = `You lose! My ${computerSelection} beats your ${playerSelection}.`;
+    computerScore = computerScore + 1;
+    updateAndCheckWin();
+  }
 }
 
-//Returns string with first letter capitalized.
-function camelCase(string) {
-  return string[0].toUpperCase() + string.slice(1).toLowerCase();
+function updateScore() {
+  playerScoreDisplay.textContent = `Player: ${playerScore}`;
+  computerScoreDisplay.textContent = `Computer: ${computerScore}`;
 }
 
-//Starts Rock, Paper, Scissors game with five rounds.
-function game() {
-  // //Initializes score at zero. [undefined, Player, Computer]
-  // let score = [undefined, 0, 0];
-  // let currentWinner = "Draw";
-  // //Begin loop of five rounds.
-  // for (let i = 0; i < 5; i++) {
-  //   console.log("Round", i);
-  //   //Play round and update score with the result.
-  //   score = processWinner(score, playRound(playerInput(), computerPlay()));
-  //   console.log(`Score: Player ${score[1]} vs Computer ${score[2]}`);
-  //   //Update current winner with score change.
-  //   if (score[1] > score[2]) {
-  //     currentWinner = "Player";
-  //   }
-  //   else if(score[1] < score[2]) {
-  //     currentWinner = "Computer";
-  //   }
-  //   else {
-  //     currentWinner = "Draw";
-  //   }
-  // }
-  // //Declare winner.
-  // if (currentWinner != "Draw") {
-  //   console.log(`Game Over. The ${currentWinner} wins!`)
-  // }
-  // else {
-  //   console.log("Game Over. It's a draw!");
-  // }
-
+function checkForWin() {
+  if(playerScore >= 5) {
+    resultMessage.textContent = resultMessage.textContent + " You've got five wins. You win the game!"
+  }
+  else if(computerScore >= 5) {
+    resultMessage.textContent = resultMessage.textContent + " I've got five wins. I win the game!"
+  }
 }
 
-// //Collect player choice of rock, paper, scissors.
-// function playerInput() {
-//   let choice = camelCase(prompt("Choose Rock, Paper, or Scissors:"));
-//   //Check for invalid inputs.
-//   if(["Rock", "Paper", "Scissors"].includes(choice) === false) {
-//     console.log("Invalid input. Please enter Rock, Paper, or Scissors...");
-//     return playerInput();
-//   }
-//   return choice;
-// }
-
-//Add one to the score for winner.
-function processWinner(scoreArray, roundResult) {
-  //If result is not a draw, add one to players score in array.
-  roundResult ? scoreArray[roundResult] = scoreArray[roundResult] + 1 : '';
-  return scoreArray;
+function updateAndCheckWin() {
+  updateScore();
+  checkForWin();
 }
