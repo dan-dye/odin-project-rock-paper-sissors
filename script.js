@@ -1,4 +1,7 @@
 const buttons = document.querySelectorAll('button');
+const resultMessage = document.getElementById('resultMessage');
+
+resultMessage.style.color = 'red';
 
 buttons.forEach(button => button.addEventListener('click', function(e){
   playRound(this.textContent, computerPlay());
