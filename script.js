@@ -1,3 +1,8 @@
+const buttons = document.querySelectorAll('button');
+
+buttons.forEach(button => button.addEventListener('click', function(e){
+  playRound(this.textContent, computerPlay());
+}))
 //Provides a random rock, paper, scissors choice from the computer.
 function computerPlay() {
   const choices = ["Rock", "Paper", "Scissors"];
@@ -10,7 +15,7 @@ function playRound(playerSelection, computerSelection) {
   playerSelection = camelCase(playerSelection);
   //Checks for same answer and returns draw response if true.
   if (playerSelection === computerSelection) {
-    console.log(`Draw! You both picked ${playerSelection}`)
+    console.log(`Draw! We both picked ${playerSelection}`)
     return undefined;
   }
   //Array of win conditions.
@@ -19,12 +24,12 @@ function playRound(playerSelection, computerSelection) {
   for (i = 0; i < wins.length; i++) {
     //If matching values are present in wins array, returns victory message.
     if (wins[i][0] === playerSelection && wins[i][1] === computerSelection)  {
-      console.log(`You win! ${playerSelection} beats ${computerSelection}`);
+      console.log(`You win! Your ${playerSelection} beats my ${computerSelection}`);
       return 1;
     }
   }
   //Defaults to defeat message if draw or victory conditions are not satisfied.
-  console.log(`You lose! ${computerSelection} beats ${playerSelection}`);
+  console.log(`You lose! My ${computerSelection} beats your ${playerSelection}`);
   return 2;
 }
 
@@ -35,45 +40,46 @@ function camelCase(string) {
 
 //Starts Rock, Paper, Scissors game with five rounds.
 function game() {
-  //Initializes score at zero. [undefined, Player, Computer]
-  let score = [undefined, 0, 0];
-  let currentWinner = "Draw";
-  //Begin loop of five rounds.
-  for (let i = 0; i < 5; i++) {
-    console.log("Round", i);
-    //Play round and update score with the result.
-    score = processWinner(score, playRound(playerInput(), computerPlay()));
-    console.log(`Score: Player ${score[1]} vs Computer ${score[2]}`);
-    //Update current winner with score change.
-    if (score[1] > score[2]) {
-      currentWinner = "Player";
-    }
-    else if(score[1] < score[2]) {
-      currentWinner = "Computer";
-    }
-    else {
-      currentWinner = "Draw";
-    }
-  }
-  //Declare winner.
-  if (currentWinner != "Draw") {
-    console.log(`Game Over. The ${currentWinner} wins!`)
-  }
-  else {
-    console.log("Game Over. It's a draw!");
-  }
+  // //Initializes score at zero. [undefined, Player, Computer]
+  // let score = [undefined, 0, 0];
+  // let currentWinner = "Draw";
+  // //Begin loop of five rounds.
+  // for (let i = 0; i < 5; i++) {
+  //   console.log("Round", i);
+  //   //Play round and update score with the result.
+  //   score = processWinner(score, playRound(playerInput(), computerPlay()));
+  //   console.log(`Score: Player ${score[1]} vs Computer ${score[2]}`);
+  //   //Update current winner with score change.
+  //   if (score[1] > score[2]) {
+  //     currentWinner = "Player";
+  //   }
+  //   else if(score[1] < score[2]) {
+  //     currentWinner = "Computer";
+  //   }
+  //   else {
+  //     currentWinner = "Draw";
+  //   }
+  // }
+  // //Declare winner.
+  // if (currentWinner != "Draw") {
+  //   console.log(`Game Over. The ${currentWinner} wins!`)
+  // }
+  // else {
+  //   console.log("Game Over. It's a draw!");
+  // }
+
 }
 
-//Collect player choice of rock, paper, scissors.
-function playerInput() {
-  let choice = camelCase(prompt("Choose Rock, Paper, or Scissors:"));
-  //Check for invalid inputs.
-  if(["Rock", "Paper", "Scissors"].includes(choice) === false) {
-    console.log("Invalid input. Please enter Rock, Paper, or Scissors...");
-    return playerInput();
-  }
-  return choice;
-}
+// //Collect player choice of rock, paper, scissors.
+// function playerInput() {
+//   let choice = camelCase(prompt("Choose Rock, Paper, or Scissors:"));
+//   //Check for invalid inputs.
+//   if(["Rock", "Paper", "Scissors"].includes(choice) === false) {
+//     console.log("Invalid input. Please enter Rock, Paper, or Scissors...");
+//     return playerInput();
+//   }
+//   return choice;
+// }
 
 //Add one to the score for winner.
 function processWinner(scoreArray, roundResult) {
